@@ -17,7 +17,7 @@ export const addMeal = async (req, res) => {
     } = req.body;
   
     try {
-        if (!name || !description|| !ingredients || !display ||!category || !user) {
+        if (!name || !description || !mealDetail || !ingredients || !display ||!category || !user) {
             const imagePath = req.file ? req.file.location:null;
             return res.status(400).json({ error: "All fields are required" });
           }
