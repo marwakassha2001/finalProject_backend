@@ -14,7 +14,7 @@ import { addUser,
     getUsersByCity
  } from "../controllers/UserController.js";
 
-import upload from "../middleware/Multer.js";
+import {upload} from "../middleware/Multer.js";
 import express from "express";
 import {authenticate} from "../middleware/Auth.js"
 

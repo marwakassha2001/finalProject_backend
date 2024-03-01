@@ -9,7 +9,7 @@ import {
     getMealsByCity
   } from "../controllers/MealController.js";
   import express from "express";
-  import upload from "../middleware/Multer.js";
+  import {upload} from "../middleware/Multer.js";
   
   const mealRouter = express.Router();
 

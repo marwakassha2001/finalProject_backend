@@ -9,16 +9,14 @@ export const addUser = async (req, res) => {
 
   try {
     if (!firstName || !lastName || !email || !password || !phoneNumber ||!address ||!city) {
-      const imagePath = `public/images/${req.file.filename}`;
-      fs.unlinkSync(imagePath);
+      // const imagePath = req.file ? req.file.location:null;
       return res.status(400).json({ error: "All fields are required" });
     }
 
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-      const imagePath = `public/images/${req.file.filename}`;
-      fs.unlinkSync(imagePath);
+      // const imagePath = req.file.location;
       return res.status(400).json({ error: "Email already exists" });
     }
 
@@ -29,7 +27,7 @@ export const addUser = async (req, res) => {
       return res.status(400).json({ error: "Upload an image" });
     }
 
-    const image = req.file.filename;
+    const image = req.file.location;
 
     const newUser = await User.create({
       firstName,
@@ -44,15 +42,14 @@ export const addUser = async (req, res) => {
       address
     });
 
-    if (!newUser) {
-      const imagePath = `public/images/${req.file.filename}`;
-      fs.unlinkSync(imagePath);
-    }
+    // if (!newUser) {
+    //   const imagePath = req.file.location:null;;
+    //   fs.unlinkSync(imagePath);
+    // }
 
     res.status(200).json(newUser);
   } catch (error) {
-    const imagePath = `public/images/${req.file.filename}`;
-    fs.unlinkSync(imagePath);
+    const imagePath = req.file.location ;
     console.error(error);
     res.status(500).json({ err: "Internal Server Error", msg: error });
   }
@@ -79,16 +76,16 @@ export const editUser = async (req, res) => {
 
     const existingUser = await User.findById(id);
 
-    if (password) {
-      const arePasswordSame = await bcrypt.compare(
-        checkPassword,
-        existingUser.password
-      );
+    // if (password) {
+    //   const arePasswordSame = await bcrypt.compare(
+    //     checkPassword,
+    //     existingUser.password
+    //   );
 
-      if (!arePasswordSame) {
-        return res.status(401).json({ message: "Invalid password" });
-      }
-    }
+    //   if (!arePasswordSame) {
+    //     return res.status(401).json({ message: "Invalid password" });
+    //   }
+    // }
 
     if (!existingUser) {
       return res.status(404).json({ error: "User not found" });
@@ -97,11 +94,10 @@ export const editUser = async (req, res) => {
     let updatedImage = existingUser.image;
     if (req.file) {
       if (existingUser.image) {
-        const imagePath = `public/images/${updatedImage}`;
-        fs.unlinkSync(imagePath);
+        const imagePath = req.file.location ;
       }
 
-      updatedImage = req.file?.filename;
+      updatedImage = req.file?.location ;
     }
 
     let updatedUserData = {};
@@ -138,8 +134,7 @@ export const editUser = async (req, res) => {
   } catch (error) {
     console.error(error);
     if (req.file) {
-      const imagePath = `public/images/${req.file.filename}`;
-      fs.unlinkSync(imagePath);
+      const imagePath = req.file.location ;
     }
     res.status(500).json({ error: "Internal Server Error", msg: error });
   }
@@ -162,8 +157,7 @@ export const deleteUser = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    const imagePath = `public/images/${user.image}`;
-    fs.unlinkSync(imagePath);
+    const imagePath = req.file.location;
 
     res.status(200).json({ message: "User deleted successfully" });
   } catch (error) {
@@ -241,16 +235,12 @@ export const addCook = async (req, res) => {
 
   try {
     if (!firstName || !lastName || !email || !password || !phoneNumber || !experties || !address || !city) {
-      const imagePath = `public/images/${req.file.filename}`;
-      fs.unlinkSync(imagePath);
       return res.status(400).json({ error: "All fields are required" });
     }
 
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-      const imagePath = `public/images/${req.file.filename}`;
-      fs.unlinkSync(imagePath);
       return res.status(400).json({ error: "Email already exists" });
     }
 
@@ -261,7 +251,7 @@ export const addCook = async (req, res) => {
       return res.status(400).json({ error: "Upload an image" });
     }
 
-    const image = req.file.filename;
+    const image = req.file.location;
 
     const newUser = await User.create({
       firstName,
@@ -276,15 +266,14 @@ export const addCook = async (req, res) => {
       city
     });
 
-    if (!newUser) {
-      const imagePath = `public/images/${req.file.filename}`;
-      fs.unlinkSync(imagePath);
-    }
+    // if (!newUser) {
+    //   const imagePath = req.file.location;
+    //  ;
+    // }
 
     res.status(200).json(newUser);
   } catch (error) {
-    const imagePath = `public/images/${req.file.filename}`;
-    fs.unlinkSync(imagePath);
+    const imagePath =req.file.location;
     console.error(error);
     res.status(500).json({ err: "Internal Server Error", msg: error });
   }
@@ -347,7 +336,7 @@ export const logIn = async (req, res) => {
     const isValidPassword = await bcrypt.compare(password, user.password);
 
     if (!isValidPassword) {
-      return res.status(401).json({ message: "Invalid password" });
+      return res.status(401).json({ message: "Invalid password " });
     }
 
     const token = generateToken(user);

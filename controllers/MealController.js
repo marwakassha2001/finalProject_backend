@@ -17,9 +17,8 @@ export const addMeal = async (req, res) => {
     } = req.body;
   
     try {
-        if (!name || !description || !mealDetail || !ingredients || !display ||!category || !user) {
-            const imagePath = `public/images/${req.file.filename}`;
-            fs.unlinkSync(imagePath);
+        if (!name || !description|| !ingredients || !display ||!category || !user) {
+            const imagePath = req.file ? req.file.location:null;
             return res.status(400).json({ error: "All fields are required" });
           }
 
@@ -27,7 +26,7 @@ export const addMeal = async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ error: "Please upload an image" });
       }
-      const image = req.file.filename;
+      const image = req.file.location;
       const slug = slugify(name, { lower: true, replacement: "-" });
 
       // Check if the category exists by its _id
@@ -50,13 +49,11 @@ export const addMeal = async (req, res) => {
           image,
         });
         if (!newMeal){
-          const imagePath = `public/images/${req.file.filename}`;
-          fs.unlinkSync(imagePath);
+          const imagePath =req.file ? req.file.location :null;
         }
         res.status(201).json({ message: "meal created successfully", Meal: newMeal });
       } catch (error) {
-        const imagePath = `public/images/${req.file.filename}`;
-        fs.unlinkSync(imagePath);
+        const imagePath = req.file.location ;
         console.log(error);
         res.status(500).json("Internal server error");
       }
@@ -88,11 +85,10 @@ export const addMeal = async (req, res) => {
       let updatedImage = existingMeal.image;
       if (req.file) {
         if (existingMeal.image) {
-          const imagePath = `public/images/${updatedImage}`;
-          fs.unlinkSync(imagePath);
+          const imagePath = req.file.location;
         }
   
-        updatedImage = req.file?.filename;
+        updatedImage = req.file?.location;
       }
   
       let updatedMealData = {};
@@ -115,8 +111,7 @@ export const addMeal = async (req, res) => {
     } catch (error) {
       console.error(error);
       if (req.file) {
-        const imagePath = `public/images/${req.file.filename}`;
-        fs.unlinkSync(imagePath);
+        const imagePath = req.file.location;
       }
       res.status(500).json({ error: "Internal Server Error", msg: error });
     }
@@ -137,8 +132,7 @@ export const addMeal = async (req, res) => {
         return res.status(404).json({ error: "meal not found" });
       }
   
-      const imagePath = `public/images/${meal.image}`;
-      fs.unlinkSync(imagePath);
+      const imagePath = req.file.location ;
   
       res.status(200).json({ message: "meal deleted successfully" });
     } catch (error) {
@@ -184,13 +178,15 @@ export const addMeal = async (req, res) => {
   export const getAllmeals = async (req, res) => {
     try {
       const meals = await Meal.find()
+        .populate('user', 'firstName image address') 
+        .populate('category','name')// Populate user info with specific fields
         .sort({ createdAt: -1 });
       return res.status(200).json(meals);
     } catch (error) {
       console.error(error);
       return res.status(500).json({ error: "Internal Server Error" });
     }
-  };
+  }
 
 
   export const getMealsByUserId = async (req, res) => {
