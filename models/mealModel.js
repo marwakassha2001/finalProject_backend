@@ -23,30 +23,26 @@ const mealSchema = new Schema(
       type : String,
       required:true
     },
-    mealDetails: [
-      {
-        weight: {
-          type: String,
-          required: true
+    price: {
+      type: Number,
+      validate: {
+        validator: function (value) {
+          return value > 0;
         },
-      price: {
-        type: Number,
-        validate: {
-          validator: function (value) {
-            return value > 0;
-          },
-          message: "Price must be a positive number",
-        },
-        required: true,
+        message: "Price must be a positive number",
       },
-    }
-    ],
+      required: true,
+    },
+    weight:{
+      type:Number,
+      required:true
+    },
     display: {
       type: Boolean,
     },
-    ingredients: [
-      { type: String }
-    ],
+    ingredients:{
+      type:String
+    },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

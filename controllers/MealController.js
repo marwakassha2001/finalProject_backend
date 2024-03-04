@@ -9,7 +9,8 @@ export const addMeal = async (req, res) => {
     const {
       name,
       description,
-      mealDetail,
+      price,
+      weight,
       ingredients,
       display,
       category,
@@ -17,7 +18,7 @@ export const addMeal = async (req, res) => {
     } = req.body;
   
     try {
-        if (!name || !description || !mealDetail || !ingredients || !display ||!category || !user) {
+        if (!name || !description || !price|| !weight|| !ingredients || !display ||!category || !user) {
             const imagePath = req.file ? req.file.location:null;
             return res.status(400).json({ error: "All fields are required" });
           }
@@ -35,12 +36,12 @@ export const addMeal = async (req, res) => {
           if(!categoryExist){         
           return res.status(404).json({ message: "Category not found" });
         }
-       const mealDetails = JSON.parse(mealDetail);
 
         const newMeal =  await Meal.create({
           name,
           description,
-          mealDetails,
+          price,
+          weight,
           ingredients,
           display,
           slug,
@@ -64,7 +65,8 @@ export const addMeal = async (req, res) => {
     const {
       name,
       description,
-      mealDetails,
+      price,
+      weight,
       ingredients,
       display,
       slug,
@@ -95,7 +97,8 @@ export const addMeal = async (req, res) => {
       updatedMealData = {
           name: name || existingMeal.name,
           description: description || existingMeal.description,
-          mealDetails: mealDetails || existingMeal.mealDetails,
+          price: price || existingMeal.price,
+          wieght: weight || existingMeal.weight,
           ingredients: ingredients || existingMeal.ingredients,
           image: updatedImage,
           display: display || existingMeal.display,
