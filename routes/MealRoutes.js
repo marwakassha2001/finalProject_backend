@@ -17,7 +17,7 @@ import {
   mealRouter.get("/:slug", getMeal);
   mealRouter.get("/byCategory/:id" ,getMealByCategory)
   mealRouter.post("/add", upload.single("image"), addMeal);
-  mealRouter.post("/mealByUser", getMealsByUserId);
+  mealRouter.get("/mealsByUser/:id", getMealsByUserId);
   mealRouter.post("/mealByCity", getMealsByCity);
   mealRouter.patch("/edit", upload.single("image"), editMeal);
   mealRouter.delete('/delete' , deleteMeal)

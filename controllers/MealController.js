@@ -135,7 +135,7 @@ export const addMeal = async (req, res) => {
         return res.status(404).json({ error: "meal not found" });
       }
   
-      const imagePath = req.file.location ;
+      // const imagePath = req.file.location ;
   
       res.status(200).json({ message: "meal deleted successfully" });
     } catch (error) {
@@ -148,7 +148,7 @@ export const addMeal = async (req, res) => {
     const slug = req.params.slug;
   
     try {
-      const meal = await Meal.findOne({ slug })
+      const meal = await Meal.findOne({ slug }).populate("category", "name")
   
       if (!meal) {
         return res.status(404).json({ error: "No such a meal" });
@@ -193,14 +193,14 @@ export const addMeal = async (req, res) => {
 
 
   export const getMealsByUserId = async (req, res) => {
-    const { userId } = req.body;
-  
+    const { id } = req.params; // Extract userId from params
+    
     try {
       // Assuming userId is stored as an ObjectId in the database
-      const meals = await Meal.find({ user: userId }).populate('user');
-      console.log(meals)
+      const meals = await Meal.find({ user: id }).populate('user');
+      console.log(meals);
   
-      if (!meals) {
+      if (!meals || meals.length === 0) {
         return res.status(404).json({ error: "No meals found for this user" });
       }
   

@@ -168,7 +168,7 @@ export const deleteUser = async (req, res) => {
 
 // Controller for getting one user by ID
 export const getOneUser = async (req, res) => {
-  const id = req.body.id;
+  const id = req.params.id; // Changed from req.body.id to req.params.id
 
   try {
     if (!mongoose.isValidObjectId(id)) {

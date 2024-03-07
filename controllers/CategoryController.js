@@ -16,8 +16,10 @@ export const createCategory = async (req, res) => {
     const { name } = req.body;
   
     try {
+      const imagePath = req.file ? req.file.location:null;
+      const image = req.file.location;
       const newCategory = await Category.create({
-        name
+        name,image
       });
   
       res.status(200).json(newCategory);
