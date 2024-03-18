@@ -169,7 +169,9 @@ export const addMeal = async (req, res) => {
         return res.status(400).json({ error: "Invalid category ID" });
       }
   
-      const meals = await Meal.find({ category: categoryId });
+      const meals = await Meal.find({ category: categoryId })
+      .populate('user', 'firstName image address') 
+      .populate('category','name')// Populate user info with specific fields;
   
       res.status(200).json(meals);
     } catch (error) {
