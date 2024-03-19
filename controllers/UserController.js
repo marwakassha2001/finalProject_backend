@@ -157,8 +157,6 @@ export const deleteUser = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    const imagePath = req.file.location;
-
     res.status(200).json({ message: "User deleted successfully" });
   } catch (error) {
     console.error(error);
@@ -168,7 +166,7 @@ export const deleteUser = async (req, res) => {
 
 // Controller for getting one user by ID
 export const getOneUser = async (req, res) => {
-  const id = req.params.id; // Changed from req.body.id to req.params.id
+  const id = req.params.id;// Changed from req.body.id to req.params.id
 
   try {
     if (!mongoose.isValidObjectId(id)) {
