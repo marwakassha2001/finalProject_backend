@@ -6,7 +6,7 @@ import cookieParser from "cookie-parser";
 import userRouter from "./routes/UserRoutes.js";
 import categoryRouter from "./routes/CategoryRoutes.js";
 import mealRouter from "./routes/MealRoutes.js"
-// import orderRouter from "./routes/OrderRoutes.js"
+import orderRouter from "./routes/OrderRoutes.js"
 // import bestCookRouter from "./routes/BestCookRoutes.js";
 import rateRouter from "./routes/RateRoutes.js";
 
@@ -30,7 +30,7 @@ app.use(cors(corsOption));
 app.use('/user', userRouter);
 app.use('/category',categoryRouter);
 app.use('/meal',mealRouter);
-// app.use('/order', orderRouter);
+app.use('/order', orderRouter);
 // app.use('/bestCook' , bestCookRouter);
 app.use('/rate', rateRouter);
 

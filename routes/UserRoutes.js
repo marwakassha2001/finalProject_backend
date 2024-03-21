@@ -7,6 +7,7 @@ import { addUser,
     getOneUser,
     getUsersByCookRole,
     getUsersByAdminRole,
+    getUserProfile,
     SignUp,
     logIn,
     loggedInUser,
@@ -27,10 +28,11 @@ userRouter.patch("/",upload.single("image"), editUser);
 userRouter.delete("/", deleteUser);
 userRouter.get("/all", getAllUsers);
 userRouter.get("/cook", getUsersByCookRole);
-userRouter.get("/:id", getOneUser);
+userRouter.get("/id", getOneUser);
 userRouter.get("/admin", getUsersByAdminRole);
 userRouter.get("/customer", getUsersByCustomer);
 userRouter.post("/signup",SignUp);
+userRouter.get("/profile/:id", getUserProfile);
 userRouter.post("/login", logIn);
 userRouter.post("/logout", logOut);
 userRouter.get("/logged-in-user", authenticate, loggedInUser);

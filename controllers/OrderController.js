@@ -49,8 +49,8 @@ export const addOrder = async (req, res) => {
         number: number,
         status: "Initiated" || status,
         userId: userId,
-        orderDetails: updatedProducts,
-        totalPrice: totalPrice + deliveryFee,
+        orderDetails: updatedMeals,
+        totalPrice: totalPrice ,
         city: city,
         address: address,
       });
